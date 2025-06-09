@@ -18,4 +18,7 @@ public interface ProduitService {
     void deleteProduit(UUID id);
 
     Produit affecterProduitCategorie(UUID idProduit, UUID idCategorie);
+    
+    List<String> readLogFileByDate(String logDirectory,String date);
+    List<String> readCurrentLogFile(String logFilePath);
 }

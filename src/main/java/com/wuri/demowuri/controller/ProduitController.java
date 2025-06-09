@@ -49,6 +49,34 @@ public class ProduitController {
         return ResponseEntity.status(HttpStatus.OK).body(produitService.showProduit(id));
     }
 
+
+    @GetMapping("/logsOld")
+    public  List<String> getCurrentLogOld(){
+        String currentLogFilePath="logs/demowuri.log";
+        return produitService.readCurrentLogFile(currentLogFilePath);
+    }
+
+     @GetMapping("logs")
+    public  ResponseEntity< List<String>> getCurrentLog(){
+        String currentLogFilePath="logs/demowuri.log";
+        List <String> logs= produitService.readCurrentLogFile(currentLogFilePath);
+         return ResponseEntity.ok(logs);
+
+
+    }
+
+
+
+    @GetMapping("logs/date/{date}")
+    public ResponseEntity<List<String>> getLogByDate(@PathVariable String date){
+       List< String> logs=produitService.readLogFileByDate("logs", date);
+       
+       if(logs.isEmpty()){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of("Aucun log trouvé pour cette date"));
+       }
+       return ResponseEntity.ok(logs);
+    }
+
     @DeleteMapping("produit/delete/{id}")
     public ResponseEntity<Object> deleteProduit(@PathVariable UUID id){
         Optional<Produit> produit = produitRepository.findById(id);
