@@ -27,7 +27,17 @@ public class SecurityConfig {
               "/api/auth/**"
 
       ).permitAll()
-            .requestMatchers("api/v1/produit/creer","api/v1/produit/liste").hasRole("ADMIN")
+            .requestMatchers("/api/v1/produit/creer","/api/v1/produit/update/{id}","/api/v1/produit/delete/{id}","/api/v1/produit/show/{id}","/api/v1/produits").hasRole("ADMIN")
+             .requestMatchers("/api/v1/logs/date/{date}","/api/v1/logs").hasRole("ADMIN")
+             .requestMatchers("/api/v1/produit/show/{id}","/api/v1/produits").hasRole("USER")
+              .requestMatchers("/api/v1/roles/creer","/api/v1/roles/update/{id}","/api/v1/roles/delete/{id}","/api/v1/roles/show/{id}","/api/v1/roles/liste").hasRole("ADMIN")
+                .requestMatchers("/api/v1/roles/show/{id}","/api/v1/roles/liste").hasRole("USER")
+
+                  .requestMatchers("/api/v1/users/creer","/api/v1/users/liste","/api/v1/users/update/{id}","/api/v1/users/delete/{id}","/api/v1/users/show/{id}","/api/v1/users/liste").hasRole("ADMIN")
+                .requestMatchers("/api/v1/users/show/{id}","api/v1/users/liste").hasRole("USER")
+                   .requestMatchers("/api/v1/categories/creer","/api/v1/categories/liste","/api/v1/categories/update/{id}","/api/v1/categories/delete/{id}","/api/v1/categories/show/{id}").hasRole("ADMIN")
+                .requestMatchers("/api/v1/categories/show/{id}","/api/v1/categories/liste").hasRole("USER")
+           
       .anyRequest().authenticated()
     );
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

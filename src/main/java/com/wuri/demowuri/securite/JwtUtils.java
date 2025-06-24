@@ -72,6 +72,15 @@ public class JwtUtils {
     }
     return false;
   }
+public boolean validateToken2(String token) {
+    try {
+        Jwts.parserBuilder().setSigningKey(jwtSecretString).build().parseClaimsJws(token);
+        return true;
+    } catch (Exception ex) {
+        System.out.println("Erreur JWT : " + ex.getMessage());  // 🧨 AJOUTE ÇA
+        return false;
+    }
+}
 
   // Extracts the username from the JWT
   public String getUsernameFromJWT(String token) {
