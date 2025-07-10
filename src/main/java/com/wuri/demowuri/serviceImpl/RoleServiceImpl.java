@@ -19,41 +19,40 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role creerRole(Role Role){
+    public Role creerRole(Role Role) {
         return roleRepository.save(Role);
     }
 
     @Override
-    public Role modifierRole(RoleDto roleDto, Long id){
+    public Role modifierRole(RoleDto roleDto, Long id) {
         Optional<Role> roleOp = roleRepository.findById(id);
-        if (roleOp.isPresent()){
+        if (roleOp.isPresent()) {
             Role roleEx = roleOp.get();
-            roleEx.setName(roleDto.getNom());
-           
+            roleEx.setName(roleDto.getName());
+
             return roleRepository.save(roleEx);
-        }else{
+        } else {
             return null;
         }
     }
 
     @Override
-    public void deleteRole(Long id){
+    public void deleteRole(Long id) {
         Optional<Role> roleOp = roleRepository.findById(id);
-        if (roleOp.isPresent()){
+        if (roleOp.isPresent()) {
             Role roleEx = roleOp.get();
             roleRepository.delete(roleEx);
         }
     }
 
     @Override
-    public Role showRole(Long id){
+    public Role showRole(Long id) {
         return roleRepository.findById(id).get();
     }
 
     @Override
-    public List<Role> listeRole(){
+    public List<Role> listeRole() {
         return roleRepository.findAll();
     }
-
 
 }

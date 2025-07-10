@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @Controller
 @RequestMapping("api/v1/users")
 public class UserController {
 
-@Autowired
-private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final UserService userService;
 
@@ -29,31 +28,31 @@ private PasswordEncoder passwordEncoder;
     }
 
     @PostMapping("creer")
-    public ResponseEntity<User> creerUser(@RequestBody User user){
+    public ResponseEntity<User> creerUser(@RequestBody User user) {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-                     
+
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.creerUser(user));
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody UserDto UserDto, @PathVariable Long id){
+    public ResponseEntity<User> updateUser(@RequestBody UserDto UserDto, @PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.modifierUser(UserDto, id));
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("liste")
-    public ResponseEntity<List<User>> listeUser(){
+    public ResponseEntity<List<User>> listeUser() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.listeUser());
     }
 
     @GetMapping("show/{id}")
-    public ResponseEntity<User> showCategorie(@PathVariable Long id){
+    public ResponseEntity<User> showCategorie(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.showUser(id));
     }
 }

@@ -23,28 +23,28 @@ public class RoleController {
     }
 
     @PostMapping("creer")
-    public ResponseEntity<Role> creerRole(@RequestBody Role role){
+    public ResponseEntity<Role> creerRole(@RequestBody Role role) {
         return ResponseEntity.status(HttpStatus.CREATED).body(roleService.creerRole(role));
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<Role> updateRole(@RequestBody RoleDto roleDto, @PathVariable Long id){
+    public ResponseEntity<Role> updateRole(@RequestBody RoleDto roleDto, @PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(roleService.modifierRole(roleDto, id));
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteRole(@PathVariable Long id){
+    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
         roleService.deleteRole(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("liste")
-    public ResponseEntity<List<Role>> listeRole(){
+    public ResponseEntity<List<Role>> listeRole() {
         return ResponseEntity.status(HttpStatus.OK).body(roleService.listeRole());
     }
 
     @GetMapping("show/{id}")
-    public ResponseEntity<Role> showCategorie(@PathVariable Long id){
+    public ResponseEntity<Role> showCategorie(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(roleService.showRole(id));
     }
 }

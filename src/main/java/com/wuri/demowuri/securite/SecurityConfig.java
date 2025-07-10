@@ -1,4 +1,5 @@
 package com.wuri.demowuri.securite;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,23 +24,27 @@ public class SecurityConfig {
     http.csrf(AbstractHttpConfigurer::disable);
     http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     http.authorizeHttpRequests(auth -> auth
-      .requestMatchers(
-              "/api/auth/**"
+        .requestMatchers(
+            "/api/auth/**"
 
-      ).permitAll()
-            .requestMatchers("/api/v1/produit/creer","/api/v1/produit/update/{id}","/api/v1/produit/delete/{id}","/api/v1/produit/show/{id}","/api/v1/produits").hasRole("ADMIN")
-             .requestMatchers("/api/v1/logs/date/{date}","/api/v1/logs").hasRole("ADMIN")
-             .requestMatchers("/api/v1/produit/show/{id}","/api/v1/produits").hasRole("USER")
-              .requestMatchers("/api/v1/roles/creer","/api/v1/roles/update/{id}","/api/v1/roles/delete/{id}","/api/v1/roles/show/{id}","/api/v1/roles/liste").hasRole("ADMIN")
-                .requestMatchers("/api/v1/roles/show/{id}","/api/v1/roles/liste").hasRole("USER")
+        ).permitAll()
+        .requestMatchers("/api/v1/produit/creer", "/api/v1/produit/update/{id}", "/api/v1/produit/delete/{id}")
+        .hasRole("ADMIN")
+        .requestMatchers("/api/v1/logs/date/{date}", "/api/v1/logs").hasRole("ADMIN")
+        .requestMatchers("/api/v1/produit/show/{id}", "/api/v1/produits").hasAnyRole("ADMIN", "USER")
+        .requestMatchers("/api/v1/roles/creer", "/api/v1/roles/update/{id}", "/api/v1/roles/delete/{id}")
+        .hasRole("ADMIN")
+        .requestMatchers("/api/v1/roles/show/{id}", "/api/v1/roles/liste").hasAnyRole("ADMIN", "USER")
 
-                  .requestMatchers("/api/v1/users/creer","/api/v1/users/liste","/api/v1/users/update/{id}","/api/v1/users/delete/{id}","/api/v1/users/show/{id}","/api/v1/users/liste").hasRole("ADMIN")
-                .requestMatchers("/api/v1/users/show/{id}","api/v1/users/liste").hasRole("USER")
-                   .requestMatchers("/api/v1/categories/creer","/api/v1/categories/liste","/api/v1/categories/update/{id}","/api/v1/categories/delete/{id}","/api/v1/categories/show/{id}").hasRole("ADMIN")
-                .requestMatchers("/api/v1/categories/show/{id}","/api/v1/categories/liste").hasRole("USER")
-           
-      .anyRequest().authenticated()
-    );
+        .requestMatchers("/api/v1/users/creer", "/api/v1/users/update/{id}",
+            "/api/v1/users/delete/{id}")
+        .hasRole("ADMIN")
+        .requestMatchers("/api/v1/users/show/{id}", "api/v1/users/liste").hasAnyRole("ADMIN", "USER")
+        .requestMatchers("/api/v1/categories/creer", "/api/v1/categories/update/{id}", "/api/v1/categories/delete/{id}")
+        .hasRole("ADMIN")
+        .requestMatchers("/api/v1/categories/show/{id}", "/api/v1/categories/liste").hasAnyRole("ADMIN", "USER")
+
+        .anyRequest().authenticated());
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }

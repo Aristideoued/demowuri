@@ -23,28 +23,28 @@ public class CategorieController {
     }
 
     @PostMapping("creer")
-    public ResponseEntity<Categorie> creerCategorie(@RequestBody Categorie categorie){
+    public ResponseEntity<Categorie> creerCategorie(@RequestBody Categorie categorie) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categorieService.creerCategorie(categorie));
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<Categorie> updateCategorie(@RequestBody CategorieDto categorieDto, @PathVariable UUID id){
+    public ResponseEntity<Categorie> updateCategorie(@RequestBody CategorieDto categorieDto, @PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(categorieService.modifierCategorie(categorieDto, id));
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteCategorie(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteCategorie(@PathVariable UUID id) {
         categorieService.deleteCategorie(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("liste")
-    public ResponseEntity<List<Categorie>> listeCategorie(){
+    public ResponseEntity<List<Categorie>> listeCategorie() {
         return ResponseEntity.status(HttpStatus.OK).body(categorieService.listeCategorie());
     }
 
     @GetMapping("show/{id}")
-    public ResponseEntity<Categorie> showCategorie(@PathVariable UUID id){
+    public ResponseEntity<Categorie> showCategorie(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(categorieService.showCategorie(id));
     }
 }
